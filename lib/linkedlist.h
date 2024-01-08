@@ -12,9 +12,9 @@ public:
     //          - int:          It takes the placement of the value you want to add (the index).
     void add_value(T value, int index)
     {
-        if (m_size == 0) return add_to_empty(value);
+        if (size() == 0) return add_to_empty(value);
         if (index <= 0) return add_start(value);
-        if (index >= m_size) return add_end(value);
+        if (index >= size()) return add_end(value);
 
         int iterator = 0;
         Node<T> *prev = head, *curr = head;
@@ -37,10 +37,10 @@ public:
     //          - !0:           Error code.
     short remove_by_index(int index)
     {
-        if (m_size <= 0) return -2;
+        if (size() <= 0) return -2;
 
         if (index <= 0) return remove_start();
-        if (index >= m_size - 1) return remove_end();
+        if (index >= size() - 1) return remove_end();
 
         int iterator = 1;
         Node<T> *prev = head;
@@ -74,10 +74,10 @@ public:
     //          - >0:           On failure, it returns the error code.
     int search(T value)
     {
-        if (m_size <= 0) return -1;
+        if (size() <= 0) return -1;
 
         Node<T> *trav = head;
-        for (int index = 0; index < m_size; index++)
+        for (int index = 0; index < size(); index++)
         {
             if (trav->get_value() == value) return index;
             trav = trav->get_next();
@@ -90,7 +90,7 @@ public:
     //          - T:            It takes the value you want to add, and adds it to the start of the list.
     void add_start(T value)
     {
-        if (m_size == 0) return add_to_empty(value);
+        if (size() == 0) return add_to_empty(value);
 
         Node<T> *second_item = head->get_next();
         head->set_next(new Node<T>(head->get_value()));
@@ -104,7 +104,7 @@ public:
     //          - T:            It takes the value you want to add, and adds it to the end of the list.
     void add_end(T value)
     {
-        if (m_size == 0) return add_to_empty(value);
+        if (size() == 0) return add_to_empty(value);
 
         Node<T> *prev = head;
         while (prev->get_next() != nullptr)
@@ -119,6 +119,8 @@ public:
     //          - <0:           On failure, it returns the error code.
     short remove_start()
     {
+        if (size() == 0) return -1;
+
         Node<T> *temp = head;
         head = head->get_next();
         delete temp;
@@ -132,8 +134,8 @@ public:
     //          - <0:           On failure, it returns the error code.
     short remove_end()
     {
-        if (m_size == 0) return -1;
-        if (m_size == 1) return remove_start();
+        if (size() == 0) return -1;
+        if (size() == 1) return remove_start();
 
         Node<T> *curr = head;
         while (curr->get_next()->get_next() != nullptr)
@@ -158,7 +160,7 @@ public:
     {
         // FIXME: Should throw error.
         if (index < 0) exit(-1);
-        if (index >= m_size) exit(-1);
+        if (index >= size()) exit(-1);
 
         Node<T> *trav = head;
         int i = 0;
